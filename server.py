@@ -30,6 +30,7 @@ def InitDB():
     df = pd.DataFrame(data=None, columns=["contactName", "contactType", "name", "text", "time"])
     df.contactType.astype('category', categories=["person", "group"])
     df.name.astype('category')
+    return df
 
 
 class GetWhatsAppChat(tornado.web.RequestHandler):
@@ -59,6 +60,14 @@ class GetWhatsAppChat(tornado.web.RequestHandler):
                             'time': message["time"]}, ignore_index=True)
 #             todo check about chronological consistency
         df.time = pd.to_datetime(df.time)  # todo change to call once at the end of the db creation
+
+
+class DataAnalysisMethods:
+    def get_last_chats(number_of_chats):
+        df.sort_values('time', ascending=True)  # todo check
+        last_chats = df.top(number_of_chats)
+        return last_chats  # todo maybe make some conversions?
+
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -108,7 +117,7 @@ def make_app():
 
 
 if __name__ == "__main__":
-    InitDB()
+    df = InitDB()
     port = 8888
     app = make_app()
     app.listen(port)
