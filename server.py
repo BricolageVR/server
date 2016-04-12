@@ -7,6 +7,7 @@ import os
 from cgi import parse_header
 import numpy as np
 import pandas as pd
+import time
 
 # todo remove
 # from pymongo import MongoClient
@@ -26,7 +27,9 @@ import pandas as pd
 
 def InitDB():
     print("initializing the DB")
-    df = pd.DataFrame()
+    df = pd.DataFrame(data=None, columns=["contactName", "contactType", "name", "text", "time"])
+    df.contactType.astype('category', categories=["person", "group"])
+    df.name.astype('category')
 
 
 class GetWhatsAppChat(tornado.web.RequestHandler):
@@ -45,10 +48,17 @@ class GetWhatsAppChat(tornado.web.RequestHandler):
         for message in data["messages"]:
             name = message["name"]
             text = message["text"]
-            time = message["time"]
-            df = df.append({'contactName': contactName, 'contactType': contactType, 'name': name, 'text': text,
-                            'time': time}, ignore_index=True)  # todo insert time as a time series
 
+            # time_str = str(message["time"])  # todo remove- apparently not needed
+            # sep_index = time_str.find(",") # assuming the time filed is constant
+            # hour = time_str[:]
+            # date = time_str[sep_index + 2:]
+            # time = date + " " + hour
+
+            df = df.append({'contactName': contactName, 'contactType': contactType, 'name': name, 'text': text,
+                            'time': message["time"]}, ignore_index=True)
+#             todo check about chronological consistency
+        df.time = pd.to_datetime(df.time)  # todo change to call once at the end of the db creation
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
