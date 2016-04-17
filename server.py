@@ -1,40 +1,22 @@
-__package__ = "typeIt"  # todo change
-
 import tornado.ioloop
 import tornado.web
 import json
 import os
 from cgi import parse_header
-import numpy as np
 import pandas as pd
-import time
-
-# todo remove
-# from pymongo import MongoClient
-# import subprocess
-
-# todo remove
-# def initMongoDB(): # check about termination
-#     print("firing up the mongoDb server")
-#     subprocess.Popen(['C:\\Program Files\\MongoDB\\Server\\3.2\\bin\\mongod',
-#                       '--dbpath', 'C:\\Users\\Asaf\\Google Drive\\Steamer\\github\\server\\db'])
-#     print("connecting the client tor the mongoDb server")
-#     client = MongoClient()
-#     db = client.mydb
-#     collection = db.my_collection
-#     # continue db creation- design needed
 
 
-def InitDB():
+def init_db():
     print("initializing the DB")
-    df = pd.DataFrame(data=None, columns=["contactName", "contactType", "name", "text", "time"])
-    df.contactType.astype('category', categories=["person", "group"])
-    df.name.astype('category')
-    return df
+    empty_df = pd.DataFrame(data=None, columns=["contactName", "contactType", "name", "text", "time"])
+    empty_df.contactType.astype('category', categories=["person", "group"])
+    empty_df.name.astype('category')
+    return empty_df
 
 
-class GetWhatsAppChat(tornado.web.RequestHandler):
+class WhatsAppHandler(tornado.web.RequestHandler):
     def post(self):
+        global df
         print("GetWhatsAppChat post handler")
         data_json = self.request.body
         content_type = self.request.headers.get('content-type', '')
@@ -44,29 +26,36 @@ class GetWhatsAppChat(tornado.web.RequestHandler):
         charset = params.get('charset', 'UTF8')
         data = json.loads(data_json.decode(charset))
         # print(data)
-        contactName = data["contact"]["name"]
-        contactType = data["contact"]["type"]
+        contact_name = data["contact"]["name"]
+        contact_type = data["contact"]["type"]
         for message in data["messages"]:
             name = message["name"]
             text = message["text"]
 
-            # time_str = str(message["time"])  # todo remove- apparently not needed
-            # sep_index = time_str.find(",") # assuming the time filed is constant
-            # hour = time_str[:]
-            # date = time_str[sep_index + 2:]
-            # time = date + " " + hour
-
-            df = df.append({'contactName': contactName, 'contactType': contactType, 'name': name, 'text': text,
+            df = df.append({'contact_name': contact_name, 'contact_type': contact_type, 'name': name, 'text': text,
                             'time': message["time"]}, ignore_index=True)
 #             todo check about chronological consistency
-        df.time = pd.to_datetime(df.time)  # todo change to call once at the end of the db creation
+
+
+class FinishedWhatsAppHandler(tornado.web.RequestHandler):
+    def post(self):
+        df.time = pd.to_datetime(df.time)
+        df.sort_values('time', ascending=True)  # todo check
+
+#         todo call all of the DataAnalysisMethods
 
 
 class DataAnalysisMethods:
+    @staticmethod
     def get_last_chats(number_of_chats):
-        df.sort_values('time', ascending=True)  # todo check
-        last_chats = df.top(number_of_chats)
-        return last_chats  # todo maybe make some conversions?
+        return df.head(number_of_chats).to_json(date_format='iso', double_precision=0, date_unit='s', orient='records')
+
+    @staticmethod
+    def get_closest_persons(number_of_persons):
+        df_no_groups = df[df.contactType == 'person']
+        return df_no_groups.contactName.value_counts().head(number_of_persons).to_json(date_format='iso', double_precision=0,
+                                                                                       date_unit='s', orient='records')
+#     todo consider creating the non groups df at the start
 
 
 class MainHandler(tornado.web.RequestHandler):
@@ -111,13 +100,15 @@ def make_app():
     print("make_app")
     return tornado.web.Application([
         (r"/", MainHandler),
+        (r"/chat", WhatsAppHandler),
+        (r"/chatFinished", FinishedWhatsAppHandler),
         (r"/string", teststring),
         (r"/json", testjson),
     ], **settings)
 
 
 if __name__ == "__main__":
-    df = InitDB()
+    df = init_db()
     port = 8888
     app = make_app()
     app.listen(port)
