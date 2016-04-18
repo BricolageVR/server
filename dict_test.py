@@ -1,50 +1,62 @@
 import pandas as pd
+from pandas.tseries.frequencies import to_offset
 import numpy as np
+from datetime import date, datetime
 
 
 def get_test_dict1():
-    dict = {"contact": {"name": "shir", "type": "person"}, "messages": [{"name": "asaf", "text": "1", "time": "5:22 PM, 4/7/2016"},
-                                                                        {"name": "shir", "text": "2", "time": "5:23 PM, 4/7/2016"},
-                                                                        {"name": "asaf", "text": "3", "time": "5:33 PM, 4/7/2016"},
-                                                                        {"name": "shir", "text": "4", "time": "5:34 PM, 4/7/2016"},
-                                                                        {"name": "asaf", "text": "5", "time": "5:45 PM, 4/7/2016"},
-                                                                        {"name": "shir", "text": "6", "time": "5:45 PM, 4/7/2016"},
-                                                                        {"name": "asaf", "text": "7", "time": "5:45 PM, 4/7/2016"},
-                                                                        {"name": "shir", "text": "8", "time": "6:03 PM, 4/7/2016"},
-                                                                        {"name": "asaf", "text": "9", "time": "6:04 PM, 4/7/2016"},
-                                                                        {"name": "shir", "text": "10", "time": "6:12 PM, 4/7/2016"},
-                                                                        {"name": "asaf", "text": "11", "time": "6:22 PM, 4/7/2016"},
-                                                                        {"name": "shir", "text": "12", "time": "6:23 PM, 4/7/2016"},
-                                                                        {"name": "asaf", "text": "13", "time": "6:25 PM, 4/22/2016"},
-                                                                        {"name": "shir", "text": "14", "time": "6:26 PM, 4/25/2016"},
-                                                                        {"name": "asaf", "text": "15", "time": "7:56 PM, 5/3/2016"},
-                                                                        {"name": "shir", "text": "16", "time": "8:44 PM, 5/6/2016"}]}
+    dict = {"contact": {"name": "shir", "type": "person"}, "messages": [{"name": "asaf", "text": "text1", "time": "5:22 PM, 4/7/2014"},
+                                                                        {"name": "shir", "text": "text2", "time": "5:23 PM, 4/7/2014"},
+                                                                        {"name": "asaf", "text": "text3", "time": "5:33 PM, 4/7/2014"},
+                                                                        {"name": "shir", "text": "text4", "time": "5:34 PM, 4/7/2014"},
+                                                                        {"name": "asaf", "text": "text5", "time": "5:45 PM, 4/7/2014"},
+                                                                        {"name": "shir", "text": "text6", "time": "5:45 PM, 4/7/2015"},
+                                                                        {"name": "asaf", "text": "text7", "time": "5:45 PM, 4/7/2016"},
+                                                                        {"name": "shir", "text": "text8", "time": "6:03 PM, 4/7/2016"},
+                                                                        {"name": "asaf", "text": "text9", "time": "6:04 PM, 4/7/2016"},
+                                                                        {"name": "shir", "text": "text10", "time": "6:12 PM, 4/7/2016"},
+                                                                        {"name": "asaf", "text": "text11", "time": "6:22 PM, 4/7/2016"},
+                                                                        {"name": "shir", "text": "text12", "time": "6:23 PM, 4/7/2016"},
+                                                                        {"name": "asaf", "text": "text13", "time": "6:25 PM, 4/22/2016"},
+                                                                        {"name": "shir", "text": "text14", "time": "6:26 PM, 4/25/2016"},
+                                                                        {"name": "asaf", "text": "text15", "time": "7:56 PM, 5/3/2016"},
+                                                                        {"name": "shir", "text": "text16", "time": "8:44 PM, 5/6/2016"}]}
     return dict
 
 
 def get_test_dict2():
-    dict = {"contact": {"name": "erez", "type": "group"}, "messages": [{"name": "erez", "text": "1", "time": "5:22 PM, 4/7/2016"},
-                                                                        {"name": "asaf", "text": "2", "time": "5:23 PM, 4/7/2016"},
-                                                                        {"name": "asaf", "text": "3", "time": "5:33 PM, 4/7/2016"},
-                                                                        {"name": "erez", "text": "4", "time": "5:34 PM, 4/7/2016"},
-                                                                        {"name": "erez", "text": "5", "time": "5:45 PM, 4/7/2016"},
-                                                                        {"name": "erez", "text": "6", "time": "5:45 PM, 4/7/2016"},
-                                                                        {"name": "asaf", "text": "7", "time": "5:45 PM, 4/7/2016"},
-                                                                        {"name": "asaf", "text": "8", "time": "6:03 PM, 4/7/2016"},
-                                                                        {"name": "asaf", "text": "9", "time": "6:04 PM, 4/7/2016"},
-                                                                        {"name": "erez", "text": "10", "time": "6:12 PM, 4/7/2016"},
-                                                                        {"name": "asaf", "text": "11", "time": "6:22 PM, 4/7/2016"},
-                                                                        {"name": "erez", "text": "12", "time": "6:23 PM, 4/7/2016"},
-                                                                        {"name": "asaf", "text": "13", "time": "6:25 PM, 4/22/2016"},
-                                                                        {"name": "erez", "text": "14", "time": "6:26 PM, 4/25/2016"}]}
+    dict = {"contact": {"name": "erez", "type": "group"}, "messages": [{"name": "erez", "text": "text1", "time": "5:22 PM, 4/7/2014"},
+                                                                        {"name": "asaf", "text": "text2", "time": "5:23 PM, 4/7/2014"},
+                                                                        {"name": "asaf", "text": "text3", "time": "5:33 PM, 4/7/2016"},
+                                                                        {"name": "erez", "text": "text4", "time": "5:34 PM, 4/7/2016"},
+                                                                        {"name": "erez", "text": "text5", "time": "5:45 PM, 4/7/2016"},
+                                                                        {"name": "erez", "text": "asaf6", "time": "5:45 PM, 4/7/2016"},
+                                                                        {"name": "asaf", "text": "text7", "time": "5:45 PM, 4/7/2016"},
+                                                                        {"name": "asaf", "text": "text8", "time": "6:03 PM, 4/7/2016"},
+                                                                        {"name": "yuval", "text": "text9", "time": "6:04 PM, 4/7/2016"},
+                                                                        {"name": "erez", "text": "text10", "time": "6:12 PM, 4/7/2016"},
+                                                                        {"name": "asaf", "text": "text11", "time": "6:22 PM, 4/7/2016"},
+                                                                        {"name": "yuval", "text": "text12", "time": "6:23 PM, 4/7/2016"},
+                                                                        {"name": "asaf", "text": "text13", "time": "6:25 PM, 4/22/2016"},
+                                                                        {"name": "erez", "text": "text14", "time": "6:26 PM, 4/25/2016"}]}
     return dict
 
 
 def get_test_dict3():
-    dict = {"contact": {"name": "erez", "type": "person"}, "messages": [{"name": "asaf", "text": "hi moses!", "time": "5:22 "
-                                                                                                                      "PM, 4/7/2016"},
-                                                                        {"name": "erez", "text": "אה כושי שלי",
-                                                                         "time": "5:23 PM, 4/7/2016"}]}
+    dict = {"contact": {"name": "yuval", "type": "person"}, "messages": [{"name": "asaf", "text": "text1", "time": "5:22 PM, 4/7/2014"},
+                                                                        {"name": "yuval", "text": "text2", "time": "5:23 PM, 4/7/2014"},
+                                                                        {"name": "yuval", "text": "text3", "time": "5:33 PM, 4/7/2014"},
+                                                                        {"name": "yuval", "text": "text4", "time": "5:34 PM, 4/7/2014"},
+                                                                        {"name": "yuval", "text": "text5", "time": "5:45 PM, 4/7/2014"},
+                                                                        {"name": "yuval", "text": "text6", "time": "5:45 PM, 4/7/2015"},
+                                                                        {"name": "asaf", "text": "text7", "time": "5:45 PM, 4/7/2015"},
+                                                                        {"name": "yuval", "text": "text8", "time": "6:03 PM, 4/7/2015"},
+                                                                        {"name": "asaf", "text": "text9", "time": "6:04 PM, 4/7/2015"},
+                                                                        {"name": "yuval", "text": "text10", "time": "6:12 PM, 4/7/2016"},
+                                                                        {"name": "asaf", "text": "text11", "time": "6:22 PM, 4/7/2016"},
+                                                                        {"name": "yuval", "text": "text12", "time": "6:23 PM, 4/7/2016"},
+                                                                        {"name": "asaf", "text": "text13", "time": "6:25 PM, 4/22/2016"},
+                                                                        {"name": "yuval", "text": "asaf14", "time": "6:26 PM, 4/25/2016"}]}
     return dict
 
 
@@ -74,6 +86,7 @@ def init_df():
 
 
 def append_df(data):
+    print("started appending the data")
     global df
     contactName = data["contact"]["name"]
     contactType = data["contact"]["type"]
@@ -83,8 +96,7 @@ def append_df(data):
         df = df.append({'contactName': contactName, 'contactType': contactType, 'name': name, 'text': text,
                         'time': message["time"]}, ignore_index=True)
     # todo check about chronological consistency
-    print(df.info)
-
+    # print(df.info)
 
 def test_df():
     global df
@@ -96,13 +108,35 @@ def test_df():
 
     df_no_groups = df[df.contactType == 'person']
 
-    closest_persons_json = df_no_groups.contactName.value_counts().head(150).to_json(date_format='iso', double_precision=0, date_unit='s',
-                                                                                     orient='records')  # todo make param
-    print(min(df.time).date())
+    closest_persons_ndarray = df_no_groups.contactName.value_counts().head(150).index
+    i = 0
+    closest_persons_df = pd.DataFrame()
+    for contactName in closest_persons_ndarray:
+        closest_persons_df = closest_persons_df.append({'contactName': contactName, 'text': 'asaf'}, ignore_index=True)
+        for index, col in df_no_groups.iterrows():
+            if col['contactName'] == contactName:
+                if 'asaf' in col['text']:
+                    closest_persons_df.iloc[i].text = col['text']
+        i += 1
+
+    # print(closest_persons_df.to_json(date_format='iso', double_precision=0, date_unit='s', orient='records'))
+
+
+    past_chats_threshold_days = 0.5 * (pd.Timestamp(date(datetime.today().year,  datetime.today().month,  datetime.today().day)).date() - (
+        min(df_no_groups.time).date()))
+
+    past_chats_threshold_date = min(df_no_groups.time) + to_offset(past_chats_threshold_days)
+    # print(past_chats_threshold_date)
+    df_past_chats = df_no_groups.where(df_no_groups.time <= past_chats_threshold_date).dropna()
+    blast = str(df_past_chats.contactName.value_counts().head(1).index)
+
+    import detec_lang
+    print("detected lang:" + detec_lang.get_language("עברית"))
 
 df = init_df()
 append_df(get_test_dict1())
 append_df(get_test_dict2())
+append_df(get_test_dict3())
 test_df()
 
 
