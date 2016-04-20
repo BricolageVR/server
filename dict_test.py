@@ -16,16 +16,19 @@ def get_test_dict1():
                                                                         {"name": "asaf", "text": "text9", "time": "6:04 PM, 4/7/2016"},
                                                                         {"name": "shir", "text": "text10", "time": "6:12 PM, 4/7/2016"},
                                                                         {"name": "asaf", "text": "text11", "time": "6:22 PM, 4/7/2016"},
-                                                                        {"name": "shir", "text": "text12", "time": "6:23 PM, 4/7/2016"},
+                                                                        {"name": "shir", "text": "asלילה טוב12as כע גכע", "time": "6:23 "
+                                                                                                                                  "PM, "
+                                                                                                                        "4/7/2016"},
                                                                         {"name": "asaf", "text": "text13", "time": "6:25 PM, 4/22/2016"},
                                                                         {"name": "shir", "text": "text14", "time": "6:26 PM, 4/25/2016"},
-                                                                        {"name": "asaf", "text": "text15", "time": "7:56 PM, 5/3/2016"},
+                                                                        {"name": "asaf", "text": "good night text15", "time": "7:56 PM, "
+                                                                                                                        "5/3/2016"},
                                                                         {"name": "shir", "text": "text16", "time": "8:44 PM, 5/6/2016"}]}
     return dict
 
 
 def get_test_dict2():
-    dict = {"contact": {"name": "erez", "type": "group"}, "messages": [{"name": "erez", "text": "text1", "time": "5:22 PM, 4/7/2014"},
+    dict = {"contact": {"name": "bricolage", "type": "group"}, "messages": [{"name": "erez", "text": "text1", "time": "5:22 PM, 4/7/2014"},
                                                                         {"name": "asaf", "text": "text2", "time": "5:23 PM, 4/7/2014"},
                                                                         {"name": "asaf", "text": "text3", "time": "5:33 PM, 4/7/2016"},
                                                                         {"name": "erez", "text": "text4", "time": "5:34 PM, 4/7/2016"},
@@ -51,12 +54,14 @@ def get_test_dict3():
                                                                         {"name": "yuval", "text": "text6", "time": "5:45 PM, 4/7/2015"},
                                                                         {"name": "asaf", "text": "text7", "time": "5:45 PM, 4/7/2015"},
                                                                         {"name": "yuval", "text": "text8", "time": "6:03 PM, 4/7/2015"},
-                                                                        {"name": "asaf", "text": "text9", "time": "6:04 PM, 4/7/2015"},
+                                                                        {"name": "asaf", "text": "good night 121", "time": "6:04 PM, "
+                                                                                                                        "4/7/2015"},
                                                                         {"name": "yuval", "text": "text10", "time": "6:12 PM, 4/7/2016"},
                                                                         {"name": "asaf", "text": "text11", "time": "6:22 PM, 4/7/2016"},
                                                                         {"name": "yuval", "text": "text12", "time": "6:23 PM, 4/7/2016"},
                                                                         {"name": "asaf", "text": "text13", "time": "6:25 PM, 4/22/2016"},
-                                                                        {"name": "yuval", "text": "asaf14", "time": "6:26 PM, 4/25/2016"}]}
+                                                                        {"name": "yuval", "text": "לילה טוב", "time": "6:26 PM, "
+                                                                                                                      "4/25/2016"}]}
     return dict
 
 
@@ -105,6 +110,7 @@ def test_df():
 
     #         todo call all of the DataAnalysisMethods
     last_chats_json = df.head(6).to_json(date_format='iso', double_precision=0, date_unit='s', orient='records')  # todo make param
+    # print(last_chats_json)
 
     df_no_groups = df[df.contactType == 'person']
 
@@ -119,7 +125,7 @@ def test_df():
                     closest_persons_df.iloc[i].text = col['text']
         i += 1
 
-    # print(closest_persons_df.to_json(date_format='iso', double_precision=0, date_unit='s', orient='records'))
+    print(closest_persons_df.to_json(date_format='iso', double_precision=0, date_unit='s', orient='records'))
 
 
     past_chats_threshold_days = 0.5 * (pd.Timestamp(date(datetime.today().year,  datetime.today().month,  datetime.today().day)).date() - (
@@ -128,10 +134,30 @@ def test_df():
     past_chats_threshold_date = min(df_no_groups.time) + to_offset(past_chats_threshold_days)
     # print(past_chats_threshold_date)
     df_past_chats = df_no_groups.where(df_no_groups.time <= past_chats_threshold_date).dropna()
-    blast = str(df_past_chats.contactName.value_counts().head(1).index)
+    blast_from_the_past = df_past_chats.contactName.value_counts().head(1).index[0]
+    closest_persons_df = closest_persons_df.append({"contactName":blast_from_the_past,"text":"im the blast fron the past"}, ignore_index=True)
+    # print(closest_persons_df)
 
-    import detec_lang
-    print("detected lang:" + detec_lang.get_language("עברית"))
+
+    good_night_df = df_no_groups[df_no_groups.text.str.contains("good night|לילה טוב|bonne nuit|sweet dreams|ללט|לילה נהדר|ליל מנוחה")]
+    good_night_df = good_night_df[['contactName', 'text']]
+
+    num_of_sentences = 0
+    for text in good_night_df.text:
+        if len(text.strip().split()) > 2:
+            num_of_sentences += 1
+
+    if num_of_sentences >= 5:
+        return
+    print(good_night_df)
+    # mask = (len(good_night_df['text'].str.split()) > 2)
+    # filtered_good_night_df = good_night_df.loc[mask]
+    # print(filtered_good_night_df)
+
+    # if (good_night_df[good_night_df.text.str.strip().count() > 2].any().count() < 5):
+    #     print(good_night_df)
+    # good_night_df = good_night_df.sort_values('', ascending=True)  # todo check
+
 
 df = init_df()
 append_df(get_test_dict1())
