@@ -7,7 +7,7 @@ from datetime import date, datetime
 def get_test_dict1():
     dict = {"contact": {"name": "shir", "type": "person"}, "messages": [{"name": "asaf", "text": "text1", "time": "5:22 PM, 4/7/2014"},
                                                                         {"name": "shir", "text": "text2", "time": "5:23 PM, 4/7/2014"},
-                                                                        {"name": "asaf", "text": "text3", "time": "5:33 PM, 4/7/2014"},
+                                                                        {"name": "asaf", "text": "text3ה", "time": "5:33 PM, 4/7/2014"},
                                                                         {"name": "shir", "text": "text4", "time": "5:34 PM, 4/7/2014"},
                                                                         {"name": "asaf", "text": "text5", "time": "5:45 PM, 4/7/2014"},
                                                                         {"name": "shir", "text": "text6", "time": "5:45 PM, 4/7/2015"},
@@ -31,17 +31,17 @@ def get_test_dict2():
     dict = {"contact": {"name": "bricolage", "type": "group"}, "messages": [{"name": "erez", "text": "text1", "time": "5:22 PM, 4/7/2014"},
                                                                         {"name": "asaf", "text": "text2", "time": "5:23 PM, 4/7/2014"},
                                                                         {"name": "asaf", "text": "text3", "time": "5:33 PM, 4/7/2016"},
-                                                                        {"name": "erez", "text": "text4", "time": "5:34 PM, 4/7/2016"},
+                                                                        {"name": "asaf", "text": "text4", "time": "5:34 PM, 4/7/2016"},
                                                                         {"name": "erez", "text": "text5", "time": "5:45 PM, 4/7/2016"},
                                                                         {"name": "erez", "text": "asaf6", "time": "5:45 PM, 4/7/2016"},
                                                                         {"name": "asaf", "text": "text7", "time": "5:45 PM, 4/7/2016"},
                                                                         {"name": "asaf", "text": "text8", "time": "6:03 PM, 4/7/2016"},
                                                                         {"name": "yuval", "text": "text9", "time": "6:04 PM, 4/7/2016"},
-                                                                        {"name": "erez", "text": "text10", "time": "6:12 PM, 4/7/2016"},
-                                                                        {"name": "asaf", "text": "text11", "time": "6:22 PM, 4/7/2016"},
+                                                                        {"name": "yuval", "text": "text10", "time": "6:12 PM, 4/7/2016"},
+                                                                        {"name": "yuval", "text": "text11", "time": "6:22 PM, 4/7/2016"},
                                                                         {"name": "yuval", "text": "text12", "time": "6:23 PM, 4/7/2016"},
-                                                                        {"name": "asaf", "text": "text13", "time": "6:25 PM, 4/22/2016"},
-                                                                        {"name": "erez", "text": "text14", "time": "6:26 PM, 4/25/2016"}]}
+                                                                        {"name": "yuval", "text": "text13", "time": "6:25 PM, 4/22/2016"},
+                                                                        {"name": "yuval", "text": "text14", "time": "6:26 PM, 4/25/2016"}]}
     return dict
 
 
@@ -66,19 +66,38 @@ def get_test_dict3():
 
 
 def get_test_dict4():
-    dict = {"contact": {"name": "neta", "type": "person"}, "messages": [{"name": "asaf", "text": "hi moses!", "time": "5:22 "
-                                                                                                                      "PM, 4/7/2016"},
-                                                                        {"name": "neta", "text": "אה כושי שלי",
-                                                                         "time": "5:23 PM, 4/7/2016"}]}
+    dict = {"contact": {"name": "grega", "type": "group"}, "messages": [{"name": "erez", "text": "text1", "time": "5:22 PM, 4/7/2014"},
+                                                                            {"name": "asaf", "text": "text2", "time": "5:23 PM, 4/7/2014"},
+                                                                            {"name": "asaf", "text": "text3", "time": "5:33 PM, 4/7/2016"},
+                                                                            {"name": "yuval", "text": "text4", "time": "5:34 PM, 4/7/2016"},
+                                                                            {"name": "yuval", "text": "text5", "time": "5:45 PM, 4/7/2016"},
+                                                                            {"name": "yuval", "text": "asaf6", "time": "5:45 PM, 4/7/2016"},
+                                                                            {"name": "yuval", "text": "text7", "time": "5:45 PM, 4/7/2016"},
+                                                                            {"name": "asaf", "text": "text8", "time": "6:03 PM, 4/7/2016"},
+                                                                            {"name": "yuval", "text": "text9", "time": "6:04 PM, 4/7/2016"}]}
     return dict
 
 
 def get_test_dict5():
-    dict = {"contact": {"name": "bricolage", "type": "group"}, "messages": [{"name": "asaf", "text": "hi moses!",
-                                                                             "time": "5:22 "
-                                                                                     "PM, 4/7/2016"},
-                                                                            {"name": "moses", "text": "אה כושי שלי",
-                                                                             "time": "5:23 PM, 4/7/2016"}]}
+    dict = {"contact": {"name": "family", "type": "group"}, "messages": [{"name": "erez", "text": "text1", "time": "5:22 PM, 4/7/2014"},
+                                                                            {"name": "asaf", "text": "text2", "time": "5:23 PM, 4/7/2014"},
+                                                                            {"name": "asaf", "text": "text3", "time": "5:33 PM, 4/7/2016"},
+                                                                            {"name": "yuval", "text": "text4", "time": "5:34 PM, 4/7/2016"},
+                                                                            {"name": "yuval", "text": "text5", "time": "5:45 PM, 4/7/2016"},
+                                                                            {"name": "yuval", "text": "asaf6", "time": "5:45 PM, 4/7/2016"},
+                                                                            {"name": "asaf", "text": "text7", "time": "5:45 PM, 4/7/2016"},
+                                                                            {"name": "asaf", "text": "text8", "time": "6:03 PM, 4/7/2016"},
+                                                                         {"name": "asaf", "text": "text8", "time": "6:03 PM, 4/7/2016"},
+                                                                         {"name": "asaf", "text": "text8", "time": "6:03 PM, 4/7/2016"},
+                                                                         {"name": "asaf", "text": "text8", "time": "6:03 PM, 4/7/2016"},
+                                                                         {"name": "asaf", "text": "text8", "time": "6:03 PM, 4/7/2016"},
+                                                                         {"name": "asaf", "text": "text8", "time": "6:03 PM, 4/7/2016"},
+                                                                         {"name": "asaf", "text": "text8", "time": "6:03 PM, 4/7/2016"},
+                                                                         {"name": "asaf", "text": "text8", "time": "6:03 PM, 4/7/2016"},
+                                                                            {"name": "yuval", "text": "text9", "time": "6:04 PM, 4/7/2016"},
+                                                                            {"name": "erez", "text": "text10", "time": "6:12 PM, 4/7/2016"},
+                                                                            {"name": "asaf", "text": "text11", "time": "6:22 PM, "
+                                                                                                                       "4/7/2016"}]}
     return dict
 
 
@@ -87,6 +106,7 @@ def init_df():
     mydf = pd.DataFrame(data=None, columns=["contactName", "contactType", "name", "text", "time"])
     mydf.contactType.astype('category', categories=["person", "group"])
     mydf.name.astype('category')
+    mydf.text.astype('str')
     return mydf
 
 
@@ -113,6 +133,7 @@ def test_df():
     # print(last_chats_json)
 
     df_no_groups = df[df.contactType == 'person']
+    df_groups = df[df.contactType == 'group']
 
     closest_persons_ndarray = df_no_groups.contactName.value_counts().head(150).index
     i = 0
@@ -125,7 +146,7 @@ def test_df():
                     closest_persons_df.iloc[i].text = col['text']
         i += 1
 
-    print(closest_persons_df.to_json(date_format='iso', double_precision=0, date_unit='s', orient='records'))
+    # print(closest_persons_df.to_json(date_format='iso', double_precision=0, date_unit='s', orient='records'))
 
 
     past_chats_threshold_days = 0.5 * (pd.Timestamp(date(datetime.today().year,  datetime.today().month,  datetime.today().day)).date() - (
@@ -149,23 +170,51 @@ def test_df():
 
     if num_of_sentences >= 5:
         return
-    print(good_night_df)
-    # mask = (len(good_night_df['text'].str.split()) > 2)
-    # filtered_good_night_df = good_night_df.loc[mask]
-    # print(filtered_good_night_df)
+ # print(good_night_df)
 
-    # if (good_night_df[good_night_df.text.str.strip().count() > 2].any().count() < 5):
-    #     print(good_night_df)
-    # good_night_df = good_night_df.sort_values('', ascending=True)  # todo check
+    past_chats_threshold_days = 0.25 * (
+        pd.Timestamp(date(datetime.today().year, datetime.today().month, datetime.today().day)).date() - (
+            min(df_no_groups.time).date()))
+    past_chats_threshold_date = min(df_no_groups.time) + to_offset(past_chats_threshold_days)
+    # print(past_chats_threshold_date)
+    df_past_chats = df_no_groups.where(df_no_groups.time <= past_chats_threshold_date).dropna()
+    # print(df_past_chats)
+
+    def get_most_active_groups(max_number_of_groups):
+        return list(df_groups['contactName'].value_counts().index)[:max_number_of_groups]
+
+    def get_users_activity_in_group(group_df): # todo maybe make maximum number of users
+        return list(group_df.name.value_counts().index)
+
+    most_active_groups_list = get_most_active_groups(3)
+    # print(most_active_groups_list)
+    # for group_name in most_active_groups_list:
+    #     get_most_active_groups(df_groups[df_groups["contactName"].all() == group_name])
+    groups = df_groups.groupby('contactName')
+    ret_dict_list = []
+    i = 0
+    for group_name in most_active_groups_list:
+        for name, group in groups:
+            if name is group_name:
+                ret_dict_list.append({})
+                ret_dict_list[i]["groupName"] = name
+                # print(ret_dict_list[i]["groupName"])
+
+                ret_dict_list[i]["groupContacts"] = get_users_activity_in_group(group)
+                # print(ret_dict_list[i]["groupContacts"])
+        i += 1
+
+    # return ret_dict_list
 
 
 df = init_df()
 append_df(get_test_dict1())
 append_df(get_test_dict2())
 append_df(get_test_dict3())
-test_df()
-
-
+append_df(get_test_dict4())
+append_df(get_test_dict5())
+# test_df()
+print(df.sort_values('contactName', ascending=True).text.values)
 
 # time_str = str(message["time"])  # todo remove- apparently not needed
 # sep_index = time_str.find(",") # assuming the time filed is constant
