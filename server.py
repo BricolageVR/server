@@ -43,7 +43,7 @@ class WhatsAppHandler(tornado.web.RequestHandler):
 
 class FinishedWhatsAppHandler(tornado.web.RequestHandler):
 
-    def post(self):  # todo change app post to not send data
+    def post(self):
         print("FinishedWhatsAppHandler")
         global df
         global df_no_groups
@@ -224,6 +224,35 @@ class MainHandler(tornado.web.RequestHandler):
         print("main.html")
         self.render("main.html")
 
+#=========================================================================================#
+# Site Handlers:
+class LandingHandler(tornado.web.RequestHandler):
+    def get(self):
+        print("Stage 1: Loading HomePage")
+        self.render("LandingPage.html")
+
+class NameSubmitHandler(tornado.web.RequestHandler):
+
+    def get(self):
+        print("Stage 3: Name Submittted,Loading TermsPage")
+        # These variables hold the users input
+        firstName = self.get_argument("first")
+        lastName = self.get_argument("last")
+        print(firstName)
+        print(lastName)
+        # now we can send a string to the front end with the following syntax:
+        # self.write("string message")
+        # self.finish()
+        # This loads the terms page
+
+class TermAgreeHandler(tornado.web.RequestHandler):
+
+    def get(self):
+        print("Stage 4: Agreed,Load whatssapp web")
+        # Insert whats up web run here
+
+#===========================================================================================#
+# test handlers:
 
 class teststring(tornado.web.RequestHandler):
     def get(self):
@@ -253,6 +282,8 @@ class UserNameHandler(tornado.web.RequestHandler):
         print("the user name is: " + data['userName'])
         user_name = data['userName']
 
+#======================================================================================================#
+# settings, make app and main
 
 settings = dict(
     static_path=os.path.join(os.path.dirname(__file__), "static")
@@ -262,7 +293,10 @@ settings = dict(
 def make_app():
     print("make_app")
     return tornado.web.Application([
-        (r"/", MainHandler),  # todo remove
+        # (r"/", MainHandler),  # todo remove
+        (r"/", LandingHandler),
+        (r"/agree", TermAgreeHandler),
+        (r"/namesubmit", NameSubmitHandler),
         (r"/userName", UserNameHandler),
         (r"/chat", WhatsAppHandler),
         (r"/chatFinished", FinishedWhatsAppHandler),
@@ -274,7 +308,7 @@ def make_app():
 if __name__ == "__main__":
     df = init_df()
     df_no_groups = pd.DataFrame()
-    df_group = pd.DataFrame()
+    df_groups = pd.DataFrame()
     user_name = ""
     port = 8888
     app = make_app()
