@@ -37,8 +37,9 @@ class WhatsAppHandler(tornado.web.RequestHandler):
             df = df.append({'contactName': contact_name, 'contactType': contact_type, 'name': name, 'text': text,
                             'time': message["time"]}, ignore_index=True)
 #             todo check about chronological consistency
-        print("the df: ")
+        print("the current df: ")
         print(df)
+        print("===================================================")
 
 
 class FinishedWhatsAppHandler(tornado.web.RequestHandler):
@@ -56,14 +57,24 @@ class FinishedWhatsAppHandler(tornado.web.RequestHandler):
         df_groups = df[df.contactType == 'group']
         df_no_groups = df[df.contactType == 'person']
 
+        print("=============================================")
+        print("df:")
+        print(df)
+        print("=============================================")
+
+        print("me:")
+        print(df[df["name"] == 'Me'])
+        print("=============================================")
+
+
         print("get_last_chats")
-        print(DataAnalysisMethods.get_last_chats(6))
+        print(json.loads(DataAnalysisMethods.get_last_chats(6)))
         print("----------------------------------")
 
         print("get_closest_persons_and_msg")
         number_of_contacts = 150
         past_fraction = 0.75
-        print(DataAnalysisMethods.get_closest_persons_and_msg(number_of_contacts, user_name, past_fraction))
+        print(json.loads(DataAnalysisMethods.get_closest_persons_and_msg(number_of_contacts, user_name, past_fraction)))
         print("----------------------------------")
 
         print("does_df_has_hebrew")
@@ -71,12 +82,12 @@ class FinishedWhatsAppHandler(tornado.web.RequestHandler):
         print("----------------------------------")
 
         print("get_good_night_messages")
-        print(DataAnalysisMethods.get_good_night_messages())
+        print(json.loads(DataAnalysisMethods.get_good_night_messages()))
         print("----------------------------------")
 
         print("get_dreams_or_old_messages")
         past_fraction = 0.25
-        print(DataAnalysisMethods.get_dreams_or_old_messages(past_fraction))
+        print(json.loads(DataAnalysisMethods.get_dreams_or_old_messages(past_fraction)))
         print("----------------------------------")
 
         print("get_most_active_groups_and_user_groups")

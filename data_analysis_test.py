@@ -5,7 +5,7 @@ from datetime import date, datetime
 
 
 def get_test_dict1():
-    dict = {"contact": {"name": "shir", "type": "person"}, "messages": [{"name": "asaf", "text": "text1", "time": "5:22 PM, 4/7/2014"},
+    dict = {"contact": {"name": "shir", "type": "person"}, "messages": [{"name": "me", "text": "text1", "time": "5:22 PM, 4/7/2014"},
                                                                         {"name": "shir", "text": "text2", "time": "5:23 PM, 4/7/2014"},
                                                                         {"name": "asaf", "text": "text3ה", "time": "5:33 PM, 4/7/2014"},
                                                                         {"name": "shir", "text": "text4", "time": "5:34 PM, 4/7/2014"},
@@ -214,7 +214,13 @@ append_df(get_test_dict3())
 append_df(get_test_dict4())
 append_df(get_test_dict5())
 # test_df()
-print(df.sort_values('contactName', ascending=True).text.values)
+# print(df.sort_values('contactName', ascending=True).text.values)
+print(df.contactName.unique())
+latest_msgs_df = df.drop_duplicates(subset='contactName')
+print(latest_msgs_df)
+
+
+
 
 # time_str = str(message["time"])  # todo remove- apparently not needed
 # sep_index = time_str.find(",") # assuming the time filed is constant
